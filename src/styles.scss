@@ -1,0 +1,71 @@
+@import "fonts";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+:root {
+  --dark-color: #000000;
+  --light-color: #FFFFFF;
+  --primary-color: #AE7AFF;
+}
+
+body {
+  background-color: var(--dark-color);
+  font-family: "JetBrains Mono", sans-serif;
+  color: var(--light-color);
+}
+
+.skill-tag {
+  border: 1px solid var(--light-color);
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-weight: 700;
+  line-height: 16px;
+  font-size: 12px;
+}
+
+.btn {
+  border: none;
+  border-radius: 2px;
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  padding: 10px 20px;
+  font-weight: 700;
+  line-height: 24px;
+  font-size: 14px;
+}
+
+.btn__click {
+  height: 44px;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+}
+
+.btn__signed {
+  background-color: var(--dark-color);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  height: 44px;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+}
+
+.btn-subscribe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h6 {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 24px;
+}

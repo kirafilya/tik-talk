@@ -1,0 +1,7 @@
+<div class=" profile-card_wrapper">
+  @for(profile of profiles$ | async; track profile.id) {
+    <app-profile-card
+      [profile] = "profile"
+    ></app-profile-card>
+  }
+</div>
