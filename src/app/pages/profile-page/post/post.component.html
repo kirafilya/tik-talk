@@ -1,1 +1,40 @@
-<p>post works!</p>
+
+
+@if (post(); as post) {
+  <app-avatar-circle
+    class="size32"
+    [avatarUrl]="post.author.avatarUrl"
+  ></app-avatar-circle>
+
+  <main class="post-body">
+    <div>
+      <div class="author-wrapper mb12">
+        <div class="post-author">{{post.author.firstName}} {{post.author.lastName}}</div>
+        <span class="post-created-at">{{ post.createdAt | timeAgo }}</span>
+      </div>
+      <p class="medium-text">{{post.content}}</p>
+    </div>
+
+    <div class="post-counters">
+      <svg icon="comment" class="comments-icon"></svg>
+      <span>{{ comments().length }}</span>
+    </div>
+
+    <div class="post__comments-wrapper">
+      @for (comment of comments(); track comment.id) {
+        <app-comment
+          [comment]="comment"
+        ></app-comment>
+      }
+    </div>
+
+    <app-post-input
+      [profile]="me"
+      (createdComment)="onCreateComment($event)"
+      [postId]="post.id"
+      [isCommentInput]="true"
+    ></app-post-input>
+
+  </main>
+
+}

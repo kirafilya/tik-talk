@@ -1,0 +1,12 @@
+@let activeChat = activeChat$ | async;
+
+@if (activeChat) {
+  <app-chat-workspace-header
+    [profile]="activeChat.companion"
+  ></app-chat-workspace-header>
+
+  <app-chat-workspace-messages-wrapper
+    [chat]="activeChat"
+  ></app-chat-workspace-messages-wrapper>
+
+}

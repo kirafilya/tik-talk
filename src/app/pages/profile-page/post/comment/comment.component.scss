@@ -1,0 +1,28 @@
+:host {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+}
+
+.comment-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.comment-head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-author {
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--light-transparent-color);
+}
+
+.comment-created-at {
+  color: var(--light-transparent-color);
+}

@@ -1,6 +1,9 @@
+@if (me(); as me) {
+  <app-profile-header
+    [profile] = "me"
+  ></app-profile-header>
 
-<app-profile-header
-></app-profile-header>
+
 
 <form
   class="profile-form__wrapper"
@@ -65,3 +68,4 @@
   </div>
 
 </form>
+}

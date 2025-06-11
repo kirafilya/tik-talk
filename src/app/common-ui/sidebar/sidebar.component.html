@@ -1,18 +1,24 @@
+@let subscribers = subscribers$ | async;
 
-<img
-  class="ml16 mb20 logo_mini"
-  src="/assets/svg/logo-small.svg"
-  alt="logotype"
->
+<a [routerLink]="['search']">
+  <img
+    class="ml16 mb20 logo_mini"
+    src="/assets/svg/logo-small.svg"
+    alt="logotype"
+  >
+</a>
+
 
 <nav class="mb20">
   <ul class="main-menu-list">
-    <li *ngFor="let menuItems of menuItems">
-      <a class="menu-item"
-      [routerLink]="[menuItems.link]"
-      routerLinkActive="active">
-        <svg [icon]="menuItems.icon" class="sidebar__icon"></svg>
-        <span>{{ menuItems.label }}</span>
+    <li *ngFor="let menuItem of menuItems">
+      <a
+        class="menu-item"
+        [routerLink]="[menuItem.link]"
+        routerLinkActive="active"
+      >
+        <svg [icon]="menuItem.icon" class="sidebar__icon"></svg>
+        <span>{{ menuItem.label }}</span>
       </a>
     </li>
   </ul>
@@ -21,12 +27,11 @@
 <div>
   <p class="medium-text mb20">Подписчики</p>
 
-  @for (profile of subscribers$ | async; track profile.id) {
 
+  @for (subscriber of subscribers; track subscriber.id) {
     <app-subscriber-card
-      [profile]="profile"
+      [profile]="subscriber"
     ></app-subscriber-card>
-
   }
 
   <div class="mt20 to-subscribers">
@@ -39,7 +44,7 @@
 </div>
 
 
-<footer class="sidebar__footer">
+<a class="sidebar__footer" [routerLink]="['/settings']">
   @if (me(); as me) {
     @if (me.avatarUrl) {
       <img
@@ -57,12 +62,11 @@
   }
   <div>{{me()?.username}}</div>
   <button class="sidebar__footer__settings">
-    <img
-      src="/assets/svg/settings.svg"
-      alt="Settings"
-    >
+    <svg
+      icon="settings"
+    ></svg>
   </button>
-</footer>
+</a>
 
 
 

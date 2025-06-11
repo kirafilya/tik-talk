@@ -12,11 +12,16 @@
 
 :root {
   --dark-color: #000000;
+  --dark-active-color: #161616;
   --light-color: #FFFFFF;
   --primary-color: #AE7AFF;
   --gray-color: #5F646D;
   --dark-hover-color: #161616;
   --light-transparent-color: rgba(255, 255, 255, 0.75);
+  --message-color: #404040;
+
+
+  --light-border: 1px solid var(--light-color);
 }
 
 body {
@@ -24,7 +29,7 @@ body {
   background-color: var(--dark-color);
   font-family: "JetBrains Mono", sans-serif;
   color: var(--light-color);
-  background-image: url("/public/assets/imgs/background.png");
+  background-image: url("/assets/imgs/background.png");
   background-size: cover;
 }
 
@@ -183,3 +188,8 @@ body {
   }
 }
 
+.avatar-post {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}

@@ -1,10 +1,11 @@
+
 <div class="header">
   @if (profile(); as profile) {
-    @if (profile.avatarUrl) {
-      <img class="avatar" [src]="profile.avatarUrl | imgUrl">
-    } @else {
-      <img class="avatar"src="/assets/imgs/avatar-placeholder.png">
-    }
+    <app-avatar-circle
+      [avatarUrl]="profile.avatarUrl"
+    ></app-avatar-circle>
+
+
 
     <div class="username-and-name">
       <h1 class="h6 mb4">{{ profile.firstName }} {{ profile.lastName }}</h1>
@@ -12,7 +13,3 @@
     </div>
   }
 </div>
-<!--<img-->
-<!--  class="line"-->
-<!--  src="/assets/svg/Line.svg"-->
-<!--&gt;-->

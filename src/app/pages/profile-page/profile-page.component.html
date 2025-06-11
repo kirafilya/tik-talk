@@ -1,21 +1,38 @@
-@if (profile$ | async; as profile) {
+@let profile = profile$ | async;
+@let subscribers = subscribers$ | async;
+
+
+@if ( profile ) {
   <header class="profile-page__header">
+
     <app-profile-header
       [profile]="profile"
     ></app-profile-header>
-    <a class="btn to-setting-btn" [routerLink]="['/settings']">
-      Редактировать
-      <svg icon="settings" class="to-setting-icon"></svg>
-    </a>
+
+    @if (isMyPage()) {
+      <a class="btn to-setting-btn" [routerLink]="['/settings']">
+        Редактировать
+        <svg icon="settings" class="to-setting-icon"></svg>
+      </a>
+    } @else {
+      <button
+        class="btn to-setting-btn"
+        (click)="sendMessage(profile.id)">
+        Написать
+      </button>
+    }
+
   </header>
 }
 
 
 <div>
-  @if (profile$ | async; as profile) {
+  @if ( profile ) {
     <main class="profile-page__body">
       <div>
-        <app-post-feed></app-post-feed>
+        <app-post-feed
+          [profile] = "profile"
+        ></app-post-feed>
       </div>
       <div class="subscriber-wrapper">
         <div>
@@ -24,7 +41,7 @@
             <span>28</span>
           </div>
           <div class="subscribers">
-            @for ( subscriber of subscribers$ | async; track subscriber.id) {
+            @for ( subscriber of subscribers; track subscriber.id) {
               <a class="subscriber-avatar-btn" [routerLink]="['/profile', subscriber.id]">
                 <img [src]="subscriber.avatarUrl | imgUrl" [alt]="subscriber.username">
               </a>

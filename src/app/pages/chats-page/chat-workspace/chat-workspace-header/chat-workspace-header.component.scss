@@ -1,0 +1,21 @@
+:host {
+  display: grid;
+  place-items: center;
+  padding-top: 16px;
+  padding-bottom: 20px;
+  border-bottom: var(--light-border);
+  color: var(--light-color);
+}
+
+.wrapper-header {
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.subscribe {
+  font-weight: 700;
+  line-height: 24px;
+  font-size: 14px;
+}

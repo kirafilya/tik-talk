@@ -1,0 +1,78 @@
+:host {
+  border: 1px solid var(--light-color);
+  border-radius: 2px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.post-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.post-author {
+  line-height: 21px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.author-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-created-at {
+  color: var(--light-transparent-color);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 21px;
+}
+
+.post-counters {
+  color: var(--primary-color);
+  display: grid;
+  align-items: center;
+  gap: 6px;
+  grid-template-columns: 16px 30px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  padding: 8px 0;
+}
+
+.comments-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-send-post {
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  width: 44px;
+  height: 40px;
+}
+
+.btn-send-post {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 2px;
+}
+
+.size32 {
+  width: 32px;
+  height: 32px;
+}
+
+.post__comments-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  max-height: 150px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}

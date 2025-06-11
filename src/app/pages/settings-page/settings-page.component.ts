@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, effect, inject, ViewChild} from '@angular/core';
+import {Component, effect, inject, ViewChild} from '@angular/core';
 import {ProfileHeaderComponent} from '../../common-ui/profile-header/profile-header.component';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ProfileService} from '../../data/services/profile.service';
@@ -19,6 +19,7 @@ import {AvatarUploadComponent} from './avatar-upload/avatar-upload.component';
 })
 export class SettingsPageComponent {
   profileService = inject(ProfileService);
+  me = this.profileService.me;
   fb = inject(FormBuilder);
 
   @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent;

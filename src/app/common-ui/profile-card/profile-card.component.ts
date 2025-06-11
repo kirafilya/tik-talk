@@ -1,15 +1,16 @@
 import {Component, Input} from '@angular/core';
 import {Profile} from '../../helpers/interfaces/profile';
-import {ImgUrlPipe} from '../../helpers/Pipes/img-url.pipe';
+import {AvatarCircleComponent} from '../avatar-circle/avatar-circle.component';
 
 @Component({
   selector: 'app-profile-card',
   imports: [
-    ImgUrlPipe
+    AvatarCircleComponent
   ],
   templateUrl: './profile-card.component.html',
   styleUrl: './profile-card.component.scss'
 })
 export class ProfileCardComponent {
   @Input() profile!: Profile;
+
 }

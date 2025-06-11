@@ -1,9 +1,11 @@
-:host {
+.subscriber-avatar-wrapper {
+  text-decoration: none;
   display: grid;
   grid-template-columns: 32px 1fr;
   gap: 12px;
   align-items: center;
   padding: 8px 0;
+  color: var(--light-color);
 }
 
 .subscriber-avatar {
@@ -12,3 +14,4 @@
   border-radius: 50%;
   border: none;
 }
+

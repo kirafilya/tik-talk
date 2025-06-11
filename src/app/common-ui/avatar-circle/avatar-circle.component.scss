@@ -1,0 +1,18 @@
+
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+
+:host.size32 img {
+  height: 32px;
+  width: 32px;
+  display: grid;
+  place-items: center;
+}
+
+:host.size71 img {
+  height: 71px;
+  width: 71px;
+}

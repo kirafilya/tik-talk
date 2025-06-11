@@ -1,4 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .profile-card_wrapper {
   display: grid;
   gap: 8px;
+}
+
+a {
+  all: unset;
 }

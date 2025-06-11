@@ -1,8 +1,9 @@
 :host {
   display: grid;
   gap: 48px;
-  grid-template-columns: 380px 1fr;
+  grid-template-columns: 390px 1fr;
   padding: 24px;
+  align-items: start;
 }
 
 .profile-form__wrapper {

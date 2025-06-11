@@ -1,13 +1,15 @@
 import {Component, inject} from '@angular/core';
-import {AsyncPipe} from '@angular/common';
 import {ProfileCardComponent} from '../../common-ui/profile-card/profile-card.component';
 import {ProfileService} from '../../data/services/profile.service';
+import {ProfileFiltersComponent} from './profile-filters/profile-filters.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-search-page',
   imports: [
-    AsyncPipe,
-    ProfileCardComponent
+    ProfileCardComponent,
+    ProfileFiltersComponent,
+    RouterLink
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss'
@@ -15,6 +17,7 @@ import {ProfileService} from '../../data/services/profile.service';
 export class  SearchPageComponent {
   profileService = inject(ProfileService);
 
-  profiles$ = this.profileService.getTestAccount();
+  profiles = this.profileService.filteredProfiles;
+
 
 }
