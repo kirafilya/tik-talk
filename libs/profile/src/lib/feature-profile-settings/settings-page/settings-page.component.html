@@ -1,0 +1,95 @@
+@if (me(); as me) {
+<app-profile-header [profile]="me"></app-profile-header>
+
+<form class="profile-form__wrapper" [formGroup]="form">
+  <div class="profile-form">
+    <div class="two-columns">
+      <div>
+        <label class="tt-form-label">
+          <span class="tt-form-label__text">Имя</span>
+          <input
+            type="text"
+            class="tt-form-input"
+            formControlName="firstName"
+          />
+        </label>
+
+        @if (form.controls.firstName.hasError('startsWith')){
+        <div>{{ form.controls.firstName.getError('startsWith') }}</div>
+        }
+      </div>
+      <div>
+        <label class="tt-form-label">
+          <span class="tt-form-label__text">Фамилия</span>
+          <input type="text" class="tt-form-input" formControlName="lastName" />
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <label class="tt-form-label">
+        <span class="tt-form-label__text">Telegram username</span>
+        <input type="text" class="tt-form-input" formControlName="username" />
+      </label>
+    </div>
+
+    <div>
+      <label class="tt-form-label">
+        <span class="tt-form-label__text">Твой друг</span>
+        <input type="text" class="tt-form-input" formControlName="city" />
+      </label>
+      @if (form.controls.city.touched &&
+      form.controls.city.hasError('nameValid')) {
+      <div class="mt20 errors">
+        {{ form.controls.city.getError('nameValid').message }}
+      </div>
+      }
+
+      <!--      @if (form.controls.city.hasError('nameValid')){-->
+      <!--        <div>{{form.controls.firstName.getError('nameValid')}}</div>-->
+      <!--      }-->
+    </div>
+
+    <div>
+      <label class="tt-form-label">
+        <span class="tt-form-label__text">О себе</span>
+        <textarea
+          class="tt-form-input tt-textarea"
+          formControlName="description"
+          rows="4"
+        >
+        </textarea>
+      </label>
+      @if (form.controls.description.touched &&
+      form.controls.description.hasError('minlength')) {
+      <div class="mt20 errors">Минимальная длина 10 символов</div>
+      }
+    </div>
+
+    <div>
+      <label class="tt-form-label">
+        <span class="tt-form-label__text">Аватар</span>
+        <app-avatar-upload></app-avatar-upload>
+      </label>
+    </div>
+
+    <div>
+      <label class="tt-form-label">
+        <span class="tt-form-label__text">Навыки</span>
+        <input
+          type="text"
+          class="tt-form-input"
+          placeholder="ryan.gosling"
+          formControlName="stack"
+        />
+      </label>
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <button class="btn" (click)="onSave()">Сохранить</button>
+    </div>
+  </div>
+</form>
+}

@@ -1,0 +1,6 @@
+:host {
+  display: grid;
+  grid-template-rows: 66px 1fr;
+  overflow-y: auto;
+  scrollbar-width: none;
+}

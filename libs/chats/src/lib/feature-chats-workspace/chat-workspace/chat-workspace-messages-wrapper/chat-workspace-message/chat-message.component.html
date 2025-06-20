@@ -1,0 +1,20 @@
+<app-avatar-circle
+  class="size32"
+  [avatarUrl]="message().user?.avatarUrl"
+></app-avatar-circle>
+
+<div class="message-container">
+  <div class="name-message">
+    <div class="date-mess-other">
+      {{ message().createdAt | date : 'HH:mm' }}
+    </div>
+    <strong class="medium-text mb8">
+      {{ message().user?.firstName }} {{ message().user?.lastName }}
+    </strong>
+    <div class="date-mess-me">
+      {{ message().createdAt | date : 'HH:mm' }}
+    </div>
+  </div>
+
+  <p class="text-message">{{ message().text }}</p>
+</div>

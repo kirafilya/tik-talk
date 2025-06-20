@@ -1,0 +1,13 @@
+.profile-search-form {
+  border: 1px solid var(--light-color);
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+  align-items: center;
+  gap: 32px;
+}
+
+.input-search {
+  display: flex;
+  justify-content: space-between;
+}

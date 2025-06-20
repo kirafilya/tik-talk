@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 33px;
+  justify-content: center;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: center;
+  gap: 24px;
+}
+
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+
+.username-and-name {
+  text-align: left;
+}
+
+.line {
+  width: 332px;
+}

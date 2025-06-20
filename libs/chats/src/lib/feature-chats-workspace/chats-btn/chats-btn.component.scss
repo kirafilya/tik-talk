@@ -1,0 +1,38 @@
+:host {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: var(--light-border);
+  padding: 24px 20px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+  cursor: pointer;
+}
+
+:host:hover,
+:host:focus-visible,
+:host.active {
+  background: var(--dark-active-color);
+}
+
+.last-message__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.message-name {
+  color: var(--light-transparent-color);
+  font-weight: 500;
+  line-height: 16px;
+  font-size: 12px;
+}
+
+.message-text {
+  color: var(--light-color);
+  font-weight: 500;
+  line-height: 16px;
+  font-size: 12px;
+}

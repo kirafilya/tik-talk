@@ -1,0 +1,16 @@
+:host {
+  display: grid;
+  place-items: center;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  width: 110px;
+  background-color: var(--dark-active-color);
+}
+
+.date-message {
+  color: var(--light-color);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}

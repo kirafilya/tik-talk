@@ -1,0 +1,47 @@
+:host {
+  display: grid;
+  gap: 48px;
+  grid-template-columns: 390px 1fr;
+  padding: 24px;
+  align-items: start;
+}
+
+.profile-form__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 2px;
+  border: 1px solid var(--light-color);
+  background-color: var(--dark-color);
+  padding: 32px;
+  height: calc(100dvh - 24px * 4);
+}
+
+.profile-form {
+  display: grid;
+  gap: 20px;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.tt-textarea {
+  height: 84px;
+}
+
+.errors {
+  color: tomato;
+}
+
+.tt-form-input.ng-invalid.ng-touched {
+  border: 1px solid tomato;
+  border-radius: 2px;
+}
+
+.tt-form-input.ng-pending.ng-touched {
+  border: 2px solid darkcyan;
+  border-radius: 2px;
+}

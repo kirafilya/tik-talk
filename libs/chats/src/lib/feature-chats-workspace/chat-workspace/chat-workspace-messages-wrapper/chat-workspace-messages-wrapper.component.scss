@@ -1,0 +1,25 @@
+:host {
+  display: grid;
+  align-items: end;
+  padding: 16px 20px 0 20px;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+}
+
+.input-wrapper {
+  position: sticky;
+  bottom: 0px;
+  background-color: var(--dark-color);
+  padding-bottom: 16px;
+  padding-top: 16px;
+}
+
+.min-height {
+  min-height: 1px;
+}
+
+.date-message-group {
+  display: grid;
+  align-items: center;
+  margin: 16px auto 32px auto;
+}
