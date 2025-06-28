@@ -15,23 +15,26 @@
     <p class="medium-text">{{ post.content }}</p>
   </div>
 
-  <div class="post-counters">
-    <svg icon="comment" class="comments-icon"></svg>
-    <span>{{ comments().length }}</span>
-  </div>
+  @if (comments(); as comments) {
+    <div class="post-counters">
+      <svg icon="comment" class="comments-icon"></svg>
+      <span>{{ comments.length }}</span>
+    </div>
 
-  <div class="post__comments-wrapper">
-    @for (comment of comments(); track comment.id) {
-    <app-comment [comment]="comment"></app-comment>
-    }
-  </div>
+    <div class="post__comments-wrapper">
+      @for (comment of comments; track comment.id) {
+        <app-comment [comment]="comment"></app-comment>
+      }
+    </div>
+  }
 
   <app-post-input
-    [profile]="me"
+    [profile]="me()"
     (createdComment)="onCreateComment($event)"
     [postId]="post.id"
     [isCommentInput]="true"
   ></app-post-input>
+
 </main>
 
 }

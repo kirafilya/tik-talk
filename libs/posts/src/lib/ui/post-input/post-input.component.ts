@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostBinding, inject, Input, input, Output, Renderer2,} from '@angular/core';
+import {Component, EventEmitter, HostBinding, inject, input, Output, Renderer2,} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
 import {CommentCreateDTO, PostCreateDTO} from '../../../../../data-access/src/lib/posts/interfaces/postCreateDTO';
@@ -18,7 +18,7 @@ import {Profile} from '@tt/interfaces/profile';
   styleUrl: './post-input.component.scss',
 })
 export class PostInputComponent {
-  @Input() profile: Profile | null = null;
+  profile = input<Profile>();
   @Output() createdPost = new EventEmitter<PostCreateDTO>();
   @Output() createdComment = new EventEmitter<CommentCreateDTO>();
 
@@ -49,7 +49,7 @@ export class PostInputComponent {
     if (this.isCommentInput()) {
       this.createdComment.emit({
         text: this.postText,
-        authorId: this.profile!.id,
+        authorId: this.profile()!.id,
         postId: this.postId(),
       });
       this.postText = '';
@@ -59,7 +59,7 @@ export class PostInputComponent {
     this.createdPost.emit({
       title: 'Lalala',
       content: this.postText,
-      authorId: this.profile!.id,
+      authorId: this.profile()!.id,
     });
     this.postText = '';
     return;

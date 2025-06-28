@@ -2,7 +2,8 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs';
 import {Chat, LastMessageRes, Message} from '../interfaces/chats';
-import {ProfileService} from '../../profile';
+import {Store} from '@ngrx/store';
+import {selectedMeProfile} from '@tt/profile';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,8 @@ import {ProfileService} from '../../profile';
 export class ChatsService {
   http = inject(HttpClient);
   chatsUrl = 'https://icherniakov.ru/yt-course/chat/';
-  me = inject(ProfileService).me;
+  store = inject(Store);
+  me = this.store.selectSignal(selectedMeProfile)();
   messageUrl = 'https://icherniakov.ru/yt-course/message/';
 
   activeChatMessages = signal<Message[]>([]);
@@ -33,7 +35,7 @@ export class ChatsService {
               chat.userFirst.id === message.userFromId
                 ? chat.userFirst
                 : chat.userSecond,
-            isMine: message.userFromId == this.me()!.id,
+            isMine: message.userFromId == this.me!.id,
           };
         });
 
@@ -42,7 +44,7 @@ export class ChatsService {
         return {
           ...chat,
           companion:
-            chat.userFirst.id === this.me()!.id
+            chat.userFirst.id === this.me!.id
               ? chat.userSecond
               : chat.userFirst,
           messages: patchedMessages,

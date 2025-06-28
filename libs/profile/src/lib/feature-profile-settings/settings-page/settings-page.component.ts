@@ -5,6 +5,8 @@ import {NameValidator} from './name.validator';
 import {AvatarUploadComponent} from '../../ui/avatar-upload/avatar-upload.component';
 import {ProfileHeaderComponent} from '../../ui/profile-header/profile-header.component';
 import {ProfileService} from '@tt/data-access';
+import {Store} from '@ngrx/store';
+import {selectedMeProfile} from '@tt/profile';
 
 function validateStartWith(forhiddenLetter: string): ValidatorFn {
   return (control: AbstractControl) => {
@@ -23,8 +25,9 @@ function validateStartWith(forhiddenLetter: string): ValidatorFn {
 })
 export class SettingsPageComponent {
   profileService = inject(ProfileService);
+  store = inject(Store);
   nameValidator = inject(NameValidator);
-  me = this.profileService.me;
+  me = this.store.selectSignal(selectedMeProfile);
   fb = inject(FormBuilder);
 
   @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent;
@@ -49,9 +52,9 @@ export class SettingsPageComponent {
     effect(() => {
       //@ts-ignore
       this.form.patchValue({
-        ...this.profileService.me(),
+        ...this.store.selectSignal(selectedMeProfile),
         //@ts-ignore
-        stack: this.mergeStack(this.profileService.me()?.stack),
+        stack: this.mergeStack(this.store.selectSignal(selectedMeProfile)?.stack),
       });
     });
   }

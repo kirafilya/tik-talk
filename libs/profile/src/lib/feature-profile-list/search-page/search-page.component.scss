@@ -7,6 +7,10 @@
 .profile-card_wrapper {
   display: grid;
   gap: 8px;
+
+  height: 74dvh;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 a {

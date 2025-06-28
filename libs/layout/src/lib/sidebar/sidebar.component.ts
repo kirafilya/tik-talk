@@ -1,11 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {AsyncPipe, NgForOf} from '@angular/common';
+import {NgForOf} from '@angular/common';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
-import {firstValueFrom, map, Observable} from 'rxjs';
 import {SubscriberCardComponent} from './subscriber-card/subscriber-card.component';
-import {ProfileService} from '@tt/data-access';
-import {Profile} from '@tt/interfaces/profile';
+import {Store} from '@ngrx/store';
+import {profileActions, selectedMeProfile, selectedSubscribersShortList} from '@tt/profile';
 
 
 @Component({
@@ -16,7 +15,6 @@ import {Profile} from '@tt/interfaces/profile';
     NgForOf,
     RouterLink,
     SubscriberCardComponent,
-    AsyncPipe,
     ImgUrlPipe,
     RouterLinkActive,
   ],
@@ -24,12 +22,10 @@ import {Profile} from '@tt/interfaces/profile';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
-  profileService: ProfileService = inject(ProfileService);
-  subscribers$: Observable<Profile[]> = this.profileService
-    .getSubscribersShortList()
-    .pipe(map((subscribers) => subscribers));
+  store = inject(Store);
 
-  me = this.profileService.me;
+  subscribers = this.store.selectSignal(selectedSubscribersShortList);
+  me = this.store.selectSignal(selectedMeProfile);
 
   menuItems = [
     {
@@ -50,6 +46,7 @@ export class SidebarComponent implements OnInit {
   ];
 
   ngOnInit() {
-    firstValueFrom(this.profileService.getMe());
+    this.store.dispatch(profileActions.myProfileGet())
+    this.store.dispatch(profileActions.getSubscribersShortList({amountSlice: 5}))
   }
 }

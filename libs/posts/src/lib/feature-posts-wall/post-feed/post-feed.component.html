@@ -1,8 +1,14 @@
-<app-post-input
-  (createdPost)="onCreatePost($event)"
-  [profile]="me"
-></app-post-input>
+@if (me(); as me) {
+  <app-post-input
+    (createdPost)="onCreatePost($event)"
+    [profile]="me"
+  ></app-post-input>
 
-@for (post of feed(); track post.id) {
-<app-post [post]="post"></app-post>
+  @for (post of feed(); track post.id) {
+    <app-post
+      [post]="post"
+      [me]="me"
+      [comments]="post.comments"
+    ></app-post>
+  }
 }

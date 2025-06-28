@@ -1,5 +1,6 @@
-@let profile = profile$ | async; @let subscribers = subscribers$ | async; @if (
-profile ) {
+@let profile = profile$ | async;
+
+@if (profile) {
 <header class="profile-page__header">
   <app-profile-header [profile]="profile"></app-profile-header>
 
@@ -20,7 +21,9 @@ profile ) {
   @if ( profile ) {
   <main class="profile-page__body">
     <div>
-      <app-post-feed [profile]="profile"></app-post-feed>
+      <app-post-feed
+        [profile]="profile">
+      </app-post-feed>
     </div>
     <div class="subscriber-wrapper">
       <div>
@@ -29,7 +32,8 @@ profile ) {
           <span>28</span>
         </div>
         <div class="subscribers">
-          @for ( subscriber of subscribers; track subscriber.id) {
+
+          @for ( subscriber of subscribers(); track subscriber.id) {
           <a
             class="subscriber-avatar-btn"
             [routerLink]="['/profile', subscriber.id]"

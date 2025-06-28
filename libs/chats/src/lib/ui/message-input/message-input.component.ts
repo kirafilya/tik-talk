@@ -1,7 +1,8 @@
 import {Component, EventEmitter, inject, Output, Renderer2,} from '@angular/core';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
 import {FormsModule} from '@angular/forms';
-import {ProfileService} from '@tt/data-access';
+import {Store} from '@ngrx/store';
+import {selectedMeProfile} from '@tt/profile';
 
 
 @Component({
@@ -15,7 +16,9 @@ export class MessageInputComponent {
   @Output() createdMess = new EventEmitter<string>();
 
   r2 = inject(Renderer2);
-  me = inject(ProfileService).me;
+
+  store = inject(Store);
+  me = this.store.selectSignal(selectedMeProfile)();
 
   textMessage = '';
 
