@@ -28,16 +28,18 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnChanges {
     }
   }
 
-  // ngOnInit() {
-  //   interval(1000).subscribe(() =>  this.chat().messages);
-  // }
-
   async onSendMessage(textMessage: string) {
-    await firstValueFrom(
-      this.chatsService.sendMessage(this.chat().id, textMessage)
-    );
+  //вызываем у нашего адаптера функцию для отправки соообщений
+    this.chatsService.wsAdapter.sendMessage(
+      textMessage,
+      this.chat().id
+    )
+    // await firstValueFrom(
+    //   this.chatsService.sendMessage(this.chat().id, textMessage)
+    // );
 
-    await firstValueFrom(this.chatsService.getChatById(this.chat().id));
+    await firstValueFrom(this.chatsService.getChatById(this.chat().id))
+    console.log('это массив чатов, который пришел после обновления' + this.chat());
   }
 
   groupMessage(

@@ -1,4 +1,4 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import {Component, input, OnInit, signal} from '@angular/core';
 
 @Component({
   selector: 'app-message-date-group',
@@ -7,12 +7,12 @@ import { Component, input, OnInit, signal } from '@angular/core';
   styleUrl: './message-date-group.component.scss',
 })
 export class MessageDateGroupComponent implements OnInit {
-  messagDate = input<string>();
+  messageDate = input<string>();
 
   dateVivod = signal<string>('');
 
   ngOnInit() {
-    const dateValue = this.messagDate();
+    const dateValue = this.messageDate();
 
     if (!dateValue) {
       // Если undefined или пустое, обработать ситуацию

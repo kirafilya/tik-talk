@@ -25,3 +25,4 @@ export interface LastMessageRes {
   userFrom: Profile;
   messages: Message[];
 }
+
