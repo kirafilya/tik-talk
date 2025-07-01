@@ -34,7 +34,7 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnChanges {
     await firstValueFrom(
       this.chatsService.sendMessage(this.chat().id, textMessage)
     );
-    
+
     this.sendMessage.emit();
   }
 

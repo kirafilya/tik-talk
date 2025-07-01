@@ -1,7 +1,7 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {ChatsListComponent} from '../chats-list/chats-list.component';
-import {ProfileService} from '@tt/data-access';
+import {ChatsService, ProfileService} from '@tt/data-access';
 
 @Component({
   selector: 'app-chats-page',
@@ -10,6 +10,12 @@ import {ProfileService} from '@tt/data-access';
   templateUrl: './chats-page.component.html',
   styleUrl: './chats-page.component.scss',
 })
-export class ChatsPageComponent {
+export class ChatsPageComponent implements OnInit {
   profileService = inject(ProfileService);
+
+  #chatService = inject(ChatsService);
+
+  ngOnInit() {
+    this.#chatService.connectWS()
+  }
 }
