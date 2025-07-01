@@ -1,4 +1,4 @@
-import {Component, inject, input, OnChanges, signal, SimpleChanges,} from '@angular/core';
+import {Component, EventEmitter, inject, input, OnChanges, Output, signal, SimpleChanges,} from '@angular/core';
 import {MessageDateGroupComponent} from '../../chats-list/message-date-group/message-date-group.component';
 import {Chat, Message} from '../../../../../../data-access/src/lib/chats/interfaces/chats';
 import {firstValueFrom} from 'rxjs';
@@ -19,6 +19,8 @@ import {ChatMessageComponent} from './chat-workspace-message/chat-message.compon
 export class ChatWorkspaceMessagesWrapperComponent implements OnChanges {
   chatsService = inject(ChatsService);
 
+  @Output() sendMessage = new EventEmitter();
+
   chat = input.required<Chat>();
   dateAndMessages = signal<{ date: string; messages: Message[] }[]>([]);
 
@@ -28,16 +30,12 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnChanges {
     }
   }
 
-  // ngOnInit() {
-  //   interval(1000).subscribe(() =>  this.chat().messages);
-  // }
-
   async onSendMessage(textMessage: string) {
     await firstValueFrom(
       this.chatsService.sendMessage(this.chat().id, textMessage)
     );
-
-    await firstValueFrom(this.chatsService.getChatById(this.chat().id));
+    
+    this.sendMessage.emit();
   }
 
   groupMessage(

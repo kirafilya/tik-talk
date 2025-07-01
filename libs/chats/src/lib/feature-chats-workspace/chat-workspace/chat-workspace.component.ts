@@ -1,12 +1,13 @@
 import {AfterViewInit, Component, ElementRef, inject, Renderer2,} from '@angular/core';
-import {debounceTime, filter, fromEvent, of, switchMap} from 'rxjs';
+import {debounceTime, filter, fromEvent, Observable, of, switchMap} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AsyncPipe} from '@angular/common';
 import {
   ChatWorkspaceMessagesWrapperComponent
 } from './chat-workspace-messages-wrapper/chat-workspace-messages-wrapper.component';
 import {ChatWorkspaceHeaderComponent} from './chat-workspace-header/chat-workspace-header.component';
 import {ChatsService} from '../../../../../data-access/src/lib/chats/services/chats.service';
+import {Chat} from '@tt/data-access';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-chat-workspace',
@@ -15,6 +16,7 @@ import {ChatsService} from '../../../../../data-access/src/lib/chats/services/ch
     ChatWorkspaceHeaderComponent,
     ChatWorkspaceMessagesWrapperComponent,
     AsyncPipe,
+
   ],
   templateUrl: './chat-workspace.component.html',
   styleUrl: './chat-workspace.component.scss',
@@ -27,24 +29,32 @@ export class ChatWorkspaceComponent implements AfterViewInit {
   hostElement = inject(ElementRef);
   r2 = inject(Renderer2);
 
-  activeChat$ = this.route.params.pipe(
-    switchMap(({ id }) => {
-      if (id === 'new') {
-        return this.route.queryParams.pipe(
-           filter(({userId}) => userId),
-          switchMap(({userId }) => {
-            return this.chatsService.createChats(userId).pipe(
-              switchMap(chat => {
-                this.router.navigate(['chats', chat.id])
-                return  of(null);
-              })
-            )
-          }),
-        )
-      }
-      return this.chatsService.getChatById(id);
-    })
-  );
+  activeChat$: Observable<Chat | null> = this.getChats();
+
+  getChats(): Observable<Chat | null> {
+    return this.route.params.pipe(
+      switchMap(({ id }) => {
+        if (id === 'new') {
+          return this.route.queryParams.pipe(
+            filter(({userId}) => userId),
+            switchMap(({userId }) => {
+              return this.chatsService.createChats(userId).pipe(
+                switchMap(chat => {
+                  this.router.navigate(['chats', chat.id])
+                  return  of(null);
+                })
+              )
+            }),
+          )
+        }
+        return this.chatsService.getChatById(id);
+      })
+    );
+  }
+
+  setChats() {
+    this.activeChat$ = this.getChats()
+  }
 
   ngAfterViewInit(): void {
     this.resizeFeed();

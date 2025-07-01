@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ElementRef, inject, Input, OnInit, Renderer2,} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, Input, OnInit, Renderer2, Signal,} from '@angular/core';
 import {debounceTime, fromEvent} from 'rxjs';
 import {PostInputComponent} from '../../ui';
 import {Profile} from '@tt/interfaces/profile';
-import {PostCreateDTO} from '@tt/data-access';
+import {Post, PostCreateDTO} from '@tt/data-access';
 import {Store} from '@ngrx/store';
 import {selectedPosts} from '../../store/selector';
 import {postsActions} from '../../store/actions';
@@ -19,11 +19,13 @@ import {selectedMeProfile} from '@tt/profile';
 export class PostFeedComponent implements AfterViewInit, OnInit {
   @Input() profile!: Profile;
 
-  store = inject(Store);
   hostElement = inject(ElementRef);
 
-  feed = this.store.selectSignal(selectedPosts)
+  store = inject(Store);
+  feed: Signal<Post[]> = this.store.selectSignal(selectedPosts)
+
   me = this.store.selectSignal(selectedMeProfile);
+
 
   r2 = inject(Renderer2);
 
@@ -33,7 +35,6 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(){
-
     this.store.dispatch(postsActions.postsGet())
   }
 

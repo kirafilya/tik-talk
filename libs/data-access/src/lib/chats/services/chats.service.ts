@@ -1,9 +1,10 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Chat, LastMessageRes, Message} from '../interfaces/chats';
 import {Store} from '@ngrx/store';
 import {selectedMeProfile} from '@tt/profile';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +13,13 @@ export class ChatsService {
   http = inject(HttpClient);
   chatsUrl = 'https://icherniakov.ru/yt-course/chat/';
   store = inject(Store);
-  me = this.store.selectSignal(selectedMeProfile)();
+  me = this.store.selectSignal(selectedMeProfile);
   messageUrl = 'https://icherniakov.ru/yt-course/message/';
 
   activeChatMessages = signal<Message[]>([]);
+
+  route = inject(ActivatedRoute);
+  router = inject(Router);
 
   createChats(chatId: number) {
     return this.http.post<Chat>(`${this.chatsUrl}${chatId}`, {});
@@ -25,9 +29,10 @@ export class ChatsService {
     return this.http.get<LastMessageRes[]>(`${this.chatsUrl}get_my_chats/`);
   }
 
-  getChatById(chatId: number) {
+  getChatById(chatId: number): Observable<Chat> {
     return this.http.get<Chat>(`${this.chatsUrl}${chatId}`).pipe(
       map((chat) => {
+
         const patchedMessages = chat.messages.map((message) => {
           return {
             ...message,
@@ -35,7 +40,7 @@ export class ChatsService {
               chat.userFirst.id === message.userFromId
                 ? chat.userFirst
                 : chat.userSecond,
-            isMine: message.userFromId == this.me!.id,
+            isMine: message.userFromId === this.me()!.id,
           };
         });
 
@@ -44,7 +49,7 @@ export class ChatsService {
         return {
           ...chat,
           companion:
-            chat.userFirst.id === this.me!.id
+            chat.userFirst.id === this.me()!.id
               ? chat.userSecond
               : chat.userFirst,
           messages: patchedMessages,
@@ -62,6 +67,6 @@ export class ChatsService {
           message,
         },
       }
-    );
+    )
   }
 }

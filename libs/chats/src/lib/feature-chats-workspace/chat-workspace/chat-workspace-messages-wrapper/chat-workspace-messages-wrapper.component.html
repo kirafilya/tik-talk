@@ -1,14 +1,14 @@
 <div class="min-height">
   @for (dateAndMessages of dateAndMessages(); track $index) {
-  <app-message-date-group
-    [messagDate]="dateAndMessages.date"
-    class="date-message-group"
-  ></app-message-date-group>
+    <app-message-date-group
+      [messagDate]="dateAndMessages.date"
+      class="date-message-group"
+    ></app-message-date-group>
 
-  @for (message of dateAndMessages.messages; track message.id) {
-  <app-chat-message class="mb12" [message]="message"></app-chat-message>
-
-  } }
+    @for (message of dateAndMessages.messages; track message.id) {
+      <app-chat-message class="mb12" [message]="message"></app-chat-message>
+    }
+  }
 </div>
 
 <div class="input-wrapper">

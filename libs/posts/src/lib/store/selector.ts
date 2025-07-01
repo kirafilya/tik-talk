@@ -7,7 +7,4 @@ export const selectedPosts = createSelector(
   (posts: Post[]) => posts
 )
 
-// export const selectedCommentsPostById = createSelector(
-//   postsFeature.selectCommentsPostById,
-//   (commentsPostById: PostComment[]) => commentsPostById
-// )
+

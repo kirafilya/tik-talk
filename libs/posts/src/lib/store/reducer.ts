@@ -2,34 +2,26 @@ import {createFeature, createReducer, on} from '@ngrx/store';
 import {postsActions} from './actions';
 import {Post} from '@tt/data-access';
 
+//Сначала создает интерфейс стора
 export interface PostsState {
   posts: Post[]
-  // commentsPostById: PostComment[]
 }
-
+//Задаем начальные значения
 export const initialState: PostsState = {
-  posts: [],
-  // commentsPostById: []
+  posts: []
 }
-
+//Здесь уже конкретно создает редьюсер
 export const postsFeature = createFeature({
   name: 'postsFeature',
   reducer: createReducer(
     initialState,
-
+// в метод on передаем экшн, который "слушает" рельюсер, начальное значение стейта и то, что будем класть в стейт
     on(postsActions.postsLoaded, (state, payload) => {
+      //стейт полностью обновляется на новый объект, кладем старое значение стейта и наши посты
       return {
         ...state,
         posts: payload.posts,
       }
     })
-
-    // on(postsActions.commentsLoaded, (state, payload) => {
-    //   return {
-    //     ...state,
-    //     commentsPostById: payload.comments ?? [],
-    //   }
-    // })
-
   )
 })

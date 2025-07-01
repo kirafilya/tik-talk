@@ -12,12 +12,17 @@ export class PostsEffects {
   postService = inject(PostService);
   actions$ = inject(Actions);
 
+
   fetchPost = createEffect(() => {
     return this.actions$.pipe(
+      //ниже экшн, на который натсроен эффект
       ofType(postsActions.postsGet),
+      //switchMap дает возможность сразу вызвать метод севиса
       switchMap(() => {
+        //в ответ получаем массив постов
         return this.postService.fetchPost()
       }),
+      //весь массив постов загруджаем в стор (диспатчим экшн для загрузки)
       map(posts => postsActions.postsLoaded({posts: posts}))
     )
   })
