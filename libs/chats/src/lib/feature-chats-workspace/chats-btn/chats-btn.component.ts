@@ -1,6 +1,6 @@
-import {Component, input} from '@angular/core';
+import {Component, inject, input, OnInit, signal} from '@angular/core';
 import {AvatarCircleComponent} from '@tt/common-ui';
-import {LastMessageRes} from '../../../../../data-access/src/lib/chats/interfaces/chats';
+import {ChatsService, LastMessageRes} from '@tt/data-access';
 
 @Component({
   selector: 'button[chats]',
@@ -8,6 +8,12 @@ import {LastMessageRes} from '../../../../../data-access/src/lib/chats/interface
   templateUrl: './chats-btn.component.html',
   styleUrl: './chats-btn.component.scss',
 })
-export class ChatsBtnComponent {
+export class ChatsBtnComponent implements OnInit {
   chat = input<LastMessageRes>();
+  unreadMessages = signal<number>(0)
+  chatsService = inject(ChatsService);
+
+  ngOnInit() {
+    this.unreadMessages.set(this.chatsService.countUnreadMessages())
+  }
 }

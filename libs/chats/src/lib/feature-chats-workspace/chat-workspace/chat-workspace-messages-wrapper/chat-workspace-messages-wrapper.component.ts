@@ -1,7 +1,19 @@
-import {Component, EventEmitter, inject, input, OnChanges, Output, signal, SimpleChanges,} from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  EventEmitter,
+  inject,
+  Input,
+  input,
+  OnChanges,
+  Output,
+  signal,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import {MessageDateGroupComponent} from '../../chats-list/message-date-group/message-date-group.component';
 import {Chat, Message} from '../../../../../../data-access/src/lib/chats/interfaces/chats';
-import {firstValueFrom} from 'rxjs';
 import {ChatsService} from '../../../../../../data-access/src/lib/chats/services/chats.service';
 import {MessageInputComponent} from '../../../ui/message-input/message-input.component';
 import {ChatMessageComponent} from './chat-workspace-message/chat-message.component';
@@ -16,27 +28,46 @@ import {ChatMessageComponent} from './chat-workspace-message/chat-message.compon
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   styleUrl: './chat-workspace-messages-wrapper.component.scss',
 })
-export class ChatWorkspaceMessagesWrapperComponent implements OnChanges {
+export class ChatWorkspaceMessagesWrapperComponent implements OnChanges, AfterViewChecked {
   chatsService = inject(ChatsService);
+  @ViewChild('scrollToBottom') scrollToBottom!: ElementRef;
 
   @Output() sendMessage = new EventEmitter();
-
+  @Input() messages: Message[] = [];
   chat = input.required<Chat>();
+
   dateAndMessages = signal<{ date: string; messages: Message[] }[]>([]);
 
+
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['chat'] && this.chat) {
-      this.dateAndMessages.set(this.groupMessage(this.chat().messages));
+    if (changes['messages']) {
+      this.dateAndMessages.set(this.groupMessage(this.messages));
     }
+    this.scrollBottom();
+  }
+
+  ngAfterViewChecked() {
+    this.scrollBottom();
   }
 
   async onSendMessage(textMessage: string) {
-    await firstValueFrom(
-      this.chatsService.sendMessage(this.chat().id, textMessage)
-    );
+    this.chatsService.wsAdapter.sendMessage(
+      textMessage,
+      this.chat().id)
 
-    this.sendMessage.emit();
+    // await firstValueFrom(
+    //   this.chatsService.getChatById(this.chat().id)
+    // );
+    this.scrollBottom();
   }
+
+  private scrollBottom() {
+    if (this.scrollToBottom) {
+      this.scrollToBottom.nativeElement.scrollTop =
+        this.scrollToBottom.nativeElement.scrollHeight;
+    }
+  }
+
 
   groupMessage(
     messagesAll: Message[]

@@ -9,7 +9,11 @@
   <div class="message-name">
     {{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}
   </div>
-  <div class="message-text medium-text">{{ chat.messages }}</div>
+  <div class="message-text medium-text">Last message</div>
 </div>
+
+  @if (unreadMessages()) {
+    <div class="count-unread-chats">{{unreadMessages()}}</div>
+  }
 
 }

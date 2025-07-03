@@ -7,6 +7,6 @@
 
   <app-chat-workspace-messages-wrapper
     [chat]="activeChat"
-    (sendMessage)="setChats()"
+    [messages]="messages()"
   ></app-chat-workspace-messages-wrapper>
 }

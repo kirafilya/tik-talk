@@ -1,6 +1,5 @@
 :host {
   display: grid;
-  align-items: end;
   padding: 16px 20px 0 20px;
   grid-template-rows: 1fr auto;
   height: 100%;
@@ -15,8 +14,18 @@
 }
 
 .min-height {
-  min-height: 1px;
+  height: 740px; /* или другая высота, чтобы контейнер занимал доступное пространство без перекрытия input */
+  overflow-y: auto;
+
+  /* Для Firefox */
+  scrollbar-width: none;
+
+  /* Для WebKit-браузеров (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
+
 
 .date-message-group {
   display: grid;

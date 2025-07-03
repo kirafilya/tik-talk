@@ -1,12 +1,11 @@
 import {AfterViewInit, Component, ElementRef, inject, Renderer2,} from '@angular/core';
-import {debounceTime, filter, fromEvent, Observable, of, switchMap} from 'rxjs';
+import {debounceTime, filter, fromEvent, of, switchMap} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   ChatWorkspaceMessagesWrapperComponent
 } from './chat-workspace-messages-wrapper/chat-workspace-messages-wrapper.component';
 import {ChatWorkspaceHeaderComponent} from './chat-workspace-header/chat-workspace-header.component';
-import {ChatsService} from '../../../../../data-access/src/lib/chats/services/chats.service';
-import {Chat} from '@tt/data-access';
+import {ChatsService} from '@tt/data-access';
 import {AsyncPipe} from '@angular/common';
 
 @Component({
@@ -29,10 +28,9 @@ export class ChatWorkspaceComponent implements AfterViewInit {
   hostElement = inject(ElementRef);
   r2 = inject(Renderer2);
 
-  activeChat$: Observable<Chat | null> = this.getChats();
+  messages = this.chatsService.activeChatMessages
 
-  getChats(): Observable<Chat | null> {
-    return this.route.params.pipe(
+  activeChat$ = this.route.params.pipe(
       switchMap(({ id }) => {
         if (id === 'new') {
           return this.route.queryParams.pipe(
@@ -50,11 +48,7 @@ export class ChatWorkspaceComponent implements AfterViewInit {
         return this.chatsService.getChatById(id);
       })
     );
-  }
 
-  setChats() {
-    this.activeChat$ = this.getChats()
-  }
 
   ngAfterViewInit(): void {
     this.resizeFeed();

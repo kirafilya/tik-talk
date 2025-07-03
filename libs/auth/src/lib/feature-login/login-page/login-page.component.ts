@@ -25,7 +25,7 @@ export class LoginPageComponent {
     if (this.form.valid) {
       //@ts-ignores
       this.authService.login(this.form.value).subscribe(() => {
-        this.router.navigate(['']);
+        this.router.navigate(['/chats/']);
       });
     }
   }

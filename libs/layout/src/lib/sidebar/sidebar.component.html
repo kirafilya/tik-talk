@@ -18,6 +18,10 @@
       >
         <svg [icon]="menuItem.icon" class="sidebar__icon"></svg>
         <span>{{ menuItem.label }}</span>
+
+        @if (menuItem.label === 'Чаты' && countUnread()) {
+          <div class="count-unread-chats">{{countUnread()}}</div>
+        }
       </a>
     </li>
   </ul>
@@ -37,6 +41,16 @@
     <svg icon="arrow" class="to-subscribers-icon"></svg>
   </div>
 </div>
+
+<a [routerLink]="['/login']">
+  <button>
+    Выход
+  </button>
+</a>
+
+<!--@if (countUnread) {-->
+
+<!--}-->
 
 <a class="sidebar__footer" [routerLink]="['/settings']">
   @if (me(); as me) { @if (me.avatarUrl) {

@@ -42,11 +42,10 @@ export class AuthService {
         refresh_token: this.refreshToken,
       })
       .pipe(
-        tap(
-          (val) => this.saveTokens(val),
+        tap((val) => this.saveTokens(val),
           catchError((err) => {
             this.logout();
-            return throwError(err);
+            return throwError(() => err);
           })
         )
       );

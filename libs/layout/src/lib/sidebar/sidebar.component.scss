@@ -95,3 +95,16 @@
   height: 14px;
   width: 14px;
 }
+
+
+.count-unread-chats {
+  display: grid;
+  background: var(--primary-color);
+  height: 20px;
+  width: 26px;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--light-color);
+}

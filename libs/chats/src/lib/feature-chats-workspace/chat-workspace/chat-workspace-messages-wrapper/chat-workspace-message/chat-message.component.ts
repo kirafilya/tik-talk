@@ -15,6 +15,6 @@ export class ChatMessageComponent {
 
   @HostBinding('class')
   get hostClasses(): string {
-    return this.message().isMine ? 'is-mine ' : '';
+    return this.message().isMine ? 'is-mine' : '';
   }
 }
