@@ -9,7 +9,7 @@ import {CommentCreateDTO, Post, PostCreateDTO} from '../interfaces/postCreateDTO
 })
 export class PostService {
   private http = inject(HttpClient);
-  baseApiUrl = 'https://icherniakov.ru/yt-course/';
+  baseApiUrl: string = '/yt-course/';
 
 
   createPost(post: PostCreateDTO) {

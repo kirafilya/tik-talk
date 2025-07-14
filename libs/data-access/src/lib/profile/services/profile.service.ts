@@ -8,7 +8,7 @@ import {Pageble, Profile} from '@tt/data-access';
 })
 export class ProfileService {
   http = inject(HttpClient);
-  baseApiUrl = 'https://icherniakov.ru/yt-course/';
+  baseApiUrl: string = '/yt-course/';
 
 
   filterProfiles(params: Record<string, any>) {
