@@ -13,7 +13,7 @@ export class AuthService {
   cookieService = inject(CookieService);
   router = inject(Router);
 
-  baseApiUrl: string = '/yt-course/f';
+  baseApiUrl: string = '/yt-course/';
 
   token: string | null = null;
   refreshToken: string | null = null;
