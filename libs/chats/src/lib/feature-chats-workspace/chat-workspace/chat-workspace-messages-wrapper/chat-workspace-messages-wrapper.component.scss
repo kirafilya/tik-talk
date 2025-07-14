@@ -1,29 +1,26 @@
 :host {
   display: grid;
-  padding: 16px 20px 0 20px;
   grid-template-rows: 1fr auto;
   height: 100%;
+  padding: 16px 20px 0 20px;
 }
+
 
 .input-wrapper {
   position: sticky;
-  bottom: 0;
+  bottom: 1px;
   background-color: var(--dark-color);
-  padding-bottom: 16px;
   padding-top: 16px;
+  padding-bottom: 16px;
+  z-index: 1;
 }
 
+
 .min-height {
-  height: 740px; /* или другая высота, чтобы контейнер занимал доступное пространство без перекрытия input */
   overflow-y: auto;
+  max-height: calc(100vh - 260px); //это чтобы сработал скролл вниз, если высота задана в процентах или не задана, то работать не будет
 
-  /* Для Firefox */
   scrollbar-width: none;
-
-  /* Для WebKit-браузеров (Chrome, Safari, Edge) */
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 

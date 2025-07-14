@@ -1,10 +1,9 @@
-import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {debounceTime, startWith} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {ProfileService} from '@tt/data-access';
+import {profileActions, ProfileService, selectedFilters} from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {filtersSelector, profileActions} from '@tt/profile';
 
 @Component({
   selector: 'app-profile-filters',
@@ -12,6 +11,7 @@ import {filtersSelector, profileActions} from '@tt/profile';
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './profile-filters.component.html',
   styleUrl: './profile-filters.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileFiltersComponent implements OnInit {
   fb = inject(FormBuilder);
@@ -19,7 +19,7 @@ export class ProfileFiltersComponent implements OnInit {
   store = inject(Store);
   destroyRef = inject(DestroyRef);
 
-  filter = this.store.selectSignal(filtersSelector);
+  filter = this.store.selectSignal(selectedFilters);
 
   searchForm = this.fb.group({
     firstName: [this.filter().profileFilters?.['firstName'] || ''],

@@ -1,8 +1,8 @@
-import {Component, EventEmitter, inject, Output, Renderer2,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, Output, Renderer2,} from '@angular/core';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
 import {FormsModule} from '@angular/forms';
 import {Store} from '@ngrx/store';
-import {selectedMeProfile} from '@tt/profile';
+import {selectedMeProfile} from '@tt/data-access';
 
 
 @Component({
@@ -11,6 +11,7 @@ import {selectedMeProfile} from '@tt/profile';
   selector: 'app-message-input',
   styleUrl: './message-input.component.scss',
   templateUrl: './message-input.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageInputComponent {
   @Output() createdMess = new EventEmitter<string>();

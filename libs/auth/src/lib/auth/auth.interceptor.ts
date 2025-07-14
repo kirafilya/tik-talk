@@ -1,7 +1,7 @@
 import {HttpHandlerFn, HttpInterceptorFn, HttpRequest,} from '@angular/common/http';
 import {inject} from '@angular/core';
 import {BehaviorSubject, catchError, filter, switchMap, tap, throwError,} from 'rxjs';
-import {AuthService} from '../../../../data-access/src/lib/auth/services/auth.service';
+import {AuthService} from '@tt/data-access';
 
 let isRefreshing$ = new BehaviorSubject<boolean>(false);
 
@@ -9,6 +9,10 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.token;
 
+  if (req.url.includes('suggestions.dadata.ru')) {
+    return next(req);
+  }
+  
   if (!token) {
     return next(req);
   }

@@ -1,9 +1,21 @@
-<app-profile-filters></app-profile-filters>
+<app-profile-filters
+  class="filter-profile"
+></app-profile-filters>
 
 <div class="profile-card_wrapper">
-  @for(profile of profiles(); track profile.id) {
-  <a [routerLink]="['/profile', profile.id]">
-    <app-profile-card [profile]="profile"></app-profile-card>
-  </a>
+  @for(profile of profiles(); track profile.id; let last = $last) {
+    <a [routerLink]="['/profile', profile.id]">
+      <app-profile-card [profile]="profile"></app-profile-card>
+    </a>
+
+    @if (last) {
+      @defer (on viewport) {
+        <tt-infinite-scroll-trigger
+          (loaded)="timeToFetch()"
+        ></tt-infinite-scroll-trigger>
+      } @placeholder {
+        <div></div>
+      }
+    }
   }
 </div>

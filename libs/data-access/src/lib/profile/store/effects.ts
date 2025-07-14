@@ -1,9 +1,10 @@
 import {inject, Injectable} from '@angular/core';
-import {Pageble, ProfileService} from '@tt/data-access';
+import {Pageble, Profile, ProfileService} from '@tt/data-access';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {profileActions} from './actions';
-import {map, switchMap} from 'rxjs';
-import {Profile} from '@tt/interfaces/profile';
+import {map, switchMap, withLatestFrom} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {selectedFilters, selectedProfilesPegiable} from './selector';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,25 @@ import {Profile} from '@tt/interfaces/profile';
 export class ProfileEffects {
   profileService = inject(ProfileService)
   actions$ = inject(Actions)
+  store = inject(Store)
 
   filterProfiles = createEffect(() => {
     return this.actions$.pipe(
-      ofType(profileActions.filterEvents),
-      switchMap(({filters}) => {
-        return this.profileService.filterProfiles(filters)
+      ofType(
+        profileActions.filterEvents,
+        profileActions.setPage
+      ),
+      withLatestFrom(
+        this.store.select(selectedProfilesPegiable),
+        this.store.select(selectedFilters),
+      ),
+      switchMap(([_, filters, pageable ]) => {
+        return this.profileService.filterProfiles({
+          ...pageable,
+          ...filters})
       }),
-      map((profile: Pageble<Profile>) => profileActions.profilesLoaded({profiles: profile.items}))
+      map((profile: Pageble<Profile>) =>
+        profileActions.profilesLoaded({profiles: profile.items}))
     )
   })
 

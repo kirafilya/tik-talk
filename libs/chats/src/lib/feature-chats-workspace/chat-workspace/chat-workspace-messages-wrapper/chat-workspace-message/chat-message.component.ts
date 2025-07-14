@@ -1,7 +1,7 @@
-import {Component, HostBinding, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, input} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {AvatarCircleComponent} from '@tt/common-ui';
-import {Message} from '../../../../../../../data-access/src/lib/chats/interfaces/chats';
+import {Message} from '@tt/data-access';
 
 @Component({
   selector: 'app-chat-message',
@@ -9,6 +9,7 @@ import {Message} from '../../../../../../../data-access/src/lib/chats/interfaces
   imports: [AvatarCircleComponent, DatePipe],
   templateUrl: './chat-message.component.html',
   styleUrl: './chat-message.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatMessageComponent {
   message = input.required<Message>();

@@ -24,11 +24,14 @@
   }
 
   .text-message {
-    mask: linear-gradient(#000 0 0),
-      linear-gradient(-135deg, #000 50%, #0000 0) border-box 100% 100% / 200%
-        200% no-repeat;
-    mask-composite: exclude;
-    mask-position: 10% 94%;
+
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+
+    //mask: linear-gradient(#000 0 0),
+    //  linear-gradient(-135deg, #000 50%, #0000 0) border-box 100% 100% / 200%
+    //    200% no-repeat;
+    //mask-composite: exclude;
+    //mask-position: 10% 94%;
 
     background-color: var(--primary-color);
   }
@@ -47,11 +50,15 @@
   background-color: var(--message-color);
   padding: 8px 16px;
   width: fit-content;
-  mask: linear-gradient(#000 0 0),
-    linear-gradient(490deg, #000 8%, rgba(0, 0, 0, 0) 0) border-box 200% 200% /
-      100% 100% no-repeat;
-  mask-composite: exclude;
-  mask-position: 10% 94%;
+
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+
+
+  //mask: linear-gradient(#000 0 0),
+  //  linear-gradient(490deg, #000 8%, rgba(0, 0, 0, 0) 0) border-box 200% 200% /
+  //    100% 100% no-repeat;
+  //mask-composite: exclude;
+  //mask-position: 10% 94%;
 
   max-width: 600px;
   overflow-wrap: anywhere;

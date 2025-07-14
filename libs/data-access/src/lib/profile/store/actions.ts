@@ -1,10 +1,11 @@
 import {createActionGroup, emptyProps, props} from '@ngrx/store';
-import {Profile} from '@tt/interfaces/profile';
+import {Profile} from '@tt/data-access';
 
 export const profileActions = createActionGroup({
   source: 'profile',
   events: {
     'filter events': props<{filters: Record<string, any>}>(),
+    'set page': props<{page? : number}>(),
     'profiles loaded': props<{profiles: Profile[]}>(),
 
     'myProfile get': emptyProps(),

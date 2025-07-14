@@ -1,13 +1,12 @@
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {TimeAgoPipe} from '../../pipes/timeAgo.pipe';
 import {CommentComponent} from '../../ui/comment/comment.component';
 import {PostInputComponent} from '../../ui/post-input/post-input.component';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
-import {CommentCreateDTO, Post, PostComment} from '@tt/data-access';
+import {CommentCreateDTO, Post, PostComment, Profile} from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {Profile} from '@tt/interfaces/profile';
-import {postsActions} from '../../store/actions';
+import {postsActions} from '../../../../../data-access/src/lib/posts/store/actions';
 
 @Component({
   selector: 'app-post',
@@ -22,6 +21,7 @@ import {postsActions} from '../../store/actions';
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostComponent {
   post = input<Post>();

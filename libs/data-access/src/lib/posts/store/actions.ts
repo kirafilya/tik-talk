@@ -4,7 +4,9 @@ import {CommentCreateDTO, Post, PostCreateDTO} from '@tt/data-access';
 export const postsActions = createActionGroup({
   source: 'posts',
   events: {
-    'posts get': emptyProps(),
+    'posts get': props<{userId: number}>(),
+    'posts my get': emptyProps(),
+
     'posts loaded': props<{posts: Post[]}>(),
     'post create': props<{post: PostCreateDTO}>(),
 

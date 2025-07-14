@@ -1,9 +1,18 @@
 :host {
   display: block;
   border-right: var(--light-border);
+  overflow-y: auto;
+  scrollbar-width: none;
+  //height: calc(100dvh - 30px);
+  height: 100%;
 }
 
 .chats-filter-input__wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 10; // чтобы не перекрывался сообщениями
   padding: 16px 20px;
   border-bottom: var(--light-border);
+  background-color: var(--dark-color); // нужен фон, чтобы не просвечивались сообщения
 }
+

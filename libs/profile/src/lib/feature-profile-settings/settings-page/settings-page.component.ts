@@ -1,4 +1,4 @@
-import {Component, effect, inject, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators,} from '@angular/forms';
 import {firstValueFrom} from 'rxjs';
 import {NameValidator} from './name.validator';
@@ -6,7 +6,9 @@ import {AvatarUploadComponent} from '../../ui/avatar-upload/avatar-upload.compon
 import {ProfileHeaderComponent} from '../../ui/profile-header/profile-header.component';
 import {ProfileService} from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {selectedMeProfile} from '@tt/profile';
+import {AddressInputComponent, StackInputComponent} from '@tt/common-ui';
+import {selectedMeProfile} from '../../../../../data-access/src/lib/profile/store/selector';
+import {profileActions} from '../../../../../data-access/src/lib/profile/store/actions';
 
 function validateStartWith(forhiddenLetter: string): ValidatorFn {
   return (control: AbstractControl) => {
@@ -19,9 +21,10 @@ function validateStartWith(forhiddenLetter: string): ValidatorFn {
 @Component({
   selector: 'app-settings-page',
   standalone: true,
-  imports: [ReactiveFormsModule, ProfileHeaderComponent, AvatarUploadComponent],
+  imports: [ReactiveFormsModule, ProfileHeaderComponent, AvatarUploadComponent, StackInputComponent, AddressInputComponent],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPageComponent {
   profileService = inject(ProfileService);
@@ -36,61 +39,44 @@ export class SettingsPageComponent {
     firstName: ['', [Validators.required, validateStartWith('с')]],
     lastName: ['', Validators.required],
     username: [{ value: '', disabled: true }],
-    city: [
-      '',
-      {
-        validators: [Validators.required],
-        asyncValidators: [this.nameValidator.validate.bind(this.nameValidator)],
-        updateOn: 'blur',
-      },
-    ],
     description: ['', Validators.minLength(10)],
-    stack: [''],
+    stack: [''
+      // {value: '', disabled: true}
+    ],
+    city: [null]
   });
 
   constructor() {
     effect(() => {
       //@ts-ignore
       this.form.patchValue({
-        ...this.store.selectSignal(selectedMeProfile),
-        //@ts-ignore
-        stack: this.mergeStack(this.store.selectSignal(selectedMeProfile)?.stack),
+        ...this.me()
       });
     });
   }
 
-  onSave() {
+
+
+  async onSave() {
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
 
     if (this.form.invalid) return;
 
-    firstValueFrom(
-      //@ts-ignore
-      this.profileService.patchProfile({
-        ...this.form.value,
-        stack: this.splitStack(this.form.value.stack),
-      })
-    );
-
     if (this.avatarUploader.avatar) {
-      firstValueFrom(
+      await firstValueFrom(
         this.profileService.uploadAvatar(this.avatarUploader.avatar)
       );
     }
-  }
 
-  splitStack(stack: string | null | string[] | undefined) {
-    if (!stack) return [];
-    if (Array.isArray(stack)) return stack;
+    await firstValueFrom(
+      //@ts-ignore
+      this.profileService.patchProfile({
+        ...this.form.value
+      })
+    );
 
-    return stack.split(',');
-  }
+    this.store.dispatch(profileActions.myProfileGet())
 
-  mergeStack(stack: string | null | string[] | undefined) {
-    if (!stack) return '';
-    if (Array.isArray(stack)) return stack.join(',');
-
-    return stack;
   }
 }

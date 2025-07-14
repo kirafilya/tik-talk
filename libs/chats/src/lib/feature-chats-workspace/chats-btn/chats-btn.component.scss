@@ -33,11 +33,21 @@
   font-size: 12px;
 }
 
+.last-message__text-wrapper {
+  height: 30px;
+  width: 260px;
+}
+
 .message-text {
   color: var(--light-color);
   font-weight: 500;
   line-height: 16px;
   font-size: 12px;
+  text-align: start;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

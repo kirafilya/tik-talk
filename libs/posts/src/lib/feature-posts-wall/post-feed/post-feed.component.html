@@ -4,11 +4,14 @@
     [profile]="me"
   ></app-post-input>
 
-  @for (post of feed(); track post.id) {
-    <app-post
-      [post]="post"
-      [me]="me"
-      [comments]="post.comments"
-    ></app-post>
+  @if (feed(); as posts) {
+    @for (post of posts; track post.id) {
+      <app-post
+        [post]="post"
+        [me]="me"
+        [comments]="post.comments"
+      ></app-post>
+    }
   }
+
 }

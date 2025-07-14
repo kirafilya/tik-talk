@@ -15,14 +15,20 @@ export class PostsEffects {
 
   fetchPost = createEffect(() => {
     return this.actions$.pipe(
-      //ниже экшн, на который натсроен эффект
       ofType(postsActions.postsGet),
-      //switchMap дает возможность сразу вызвать метод севиса
+      switchMap(({userId}) => {
+        return this.postService.getPostsByUserId(userId)
+      }),
+      map(posts => postsActions.postsLoaded({posts: posts}))
+    )
+  })
+
+  fetchMyPost = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(postsActions.postsMyGet),
       switchMap(() => {
-        //в ответ получаем массив постов
         return this.postService.fetchPost()
       }),
-      //весь массив постов загруджаем в стор (диспатчим экшн для загрузки)
       map(posts => postsActions.postsLoaded({posts: posts}))
     )
   })

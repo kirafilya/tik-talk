@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {switchMap} from 'rxjs';
+import {Observable, switchMap} from 'rxjs';
 import {Comment} from '@angular/compiler';
 import {CommentCreateDTO, Post, PostCreateDTO} from '../interfaces/postCreateDTO';
 
@@ -22,6 +22,12 @@ export class PostService {
 
   fetchPost() {
     return this.http.get<Post[]>(`${this.baseApiUrl}post/`)
+  }
+
+  getPostsByUserId(userId: number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.baseApiUrl}post/`, {
+      params: { user_id: userId }
+    });
   }
 
 

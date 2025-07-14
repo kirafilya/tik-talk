@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, inject, Renderer2,} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, Renderer2,} from '@angular/core';
 import {debounceTime, filter, fromEvent, of, switchMap} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
@@ -19,6 +19,7 @@ import {AsyncPipe} from '@angular/common';
   ],
   templateUrl: './chat-workspace.component.html',
   styleUrl: './chat-workspace.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatWorkspaceComponent implements AfterViewInit {
   route = inject(ActivatedRoute);
@@ -61,7 +62,6 @@ export class ChatWorkspaceComponent implements AfterViewInit {
   }
 
   resizeFeed() {
-    //тут мы задаем стили и местоположение элементу
     const { top } = this.hostElement.nativeElement.getBoundingClientRect();
 
     const height = window.innerHeight - top - 24;

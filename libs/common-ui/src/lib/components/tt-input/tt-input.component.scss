@@ -1,0 +1,31 @@
+
+.logo {
+  width: 440px;
+  display: grid;
+  place-items: center;
+  align-items: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.password-eye-btn,
+.username-tg-btn {
+  position: absolute;
+  top: 27%;
+  right: 12px;
+  transform: translate(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.password-eye-btn {
+  color: #ffffffbf;
+}
+
+.password-eye-btn.active {
+  color: var(--primary-color);
+}

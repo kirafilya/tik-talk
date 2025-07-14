@@ -1,11 +1,11 @@
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AsyncPipe} from '@angular/common';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {map, Observable, startWith, switchMap} from 'rxjs';
+import {combineLatest, map, Observable, startWith} from 'rxjs';
 import {ChatsBtnComponent} from '../chats-btn/chats-btn.component';
-import {ChatsService} from '../../../../../data-access/src/lib/chats/services/chats.service';
-import {LastMessageRes} from '../../../../../data-access/src/lib/chats/interfaces/chats';
+import {ChatsService, LastMessageRes} from '@tt/data-access';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chats-list',
@@ -18,24 +18,37 @@ import {LastMessageRes} from '../../../../../data-access/src/lib/chats/interface
   ],
   templateUrl: './chats-list.component.html',
   styleUrl: './chats-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class ChatsListComponent {
-  chatsService: ChatsService = inject(ChatsService);
+  private chatsService = inject(ChatsService);
 
   filterChatsControl = new FormControl('', Validators.required);
 
-  chats$: Observable<LastMessageRes[]> = this.chatsService.getMyChats().pipe(
-    switchMap((chats: LastMessageRes[]) => {
-      return this.filterChatsControl.valueChanges.pipe(
-        startWith(''), //тут стартовая инфа в фильтре, чтобы показались все чаты без фильтра
-        map((inputValue) => {
-          return chats.filter((chat: LastMessageRes) => {
-            return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
-              .toLowerCase()
-              .includes(inputValue?.toLowerCase() ?? '');
-          });
-        })
+  unreadMapMessages = this.chatsService.countUnreadMessagesOneUser;
+
+  chats$: Observable<LastMessageRes[]> = combineLatest([
+    this.chatsService.getMyChats(),
+    this.filterChatsControl.valueChanges.pipe(startWith('')),
+    toObservable(this.unreadMapMessages)
+  ]).pipe(
+    map(([chats, filter, unreadMap]) => {
+
+      const filtered = chats.filter(chat =>
+        `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
+          .toLowerCase()
+          .includes(filter?.toLowerCase() ?? '')
       );
+
+      const result = filtered.map(chat => (
+        {
+          ...chat,
+          countUnread: unreadMap.get(chat.id) ?? 0
+        }
+      ));
+
+      return result;
     })
   );
 }

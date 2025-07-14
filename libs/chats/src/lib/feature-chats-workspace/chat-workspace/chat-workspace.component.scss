@@ -3,4 +3,11 @@
   grid-template-rows: 66px 1fr;
   overflow-y: auto;
   scrollbar-width: none;
+  height: 100%;
+}
+
+.border {
+  place-items: center;
+  border-bottom: var(--light-border);
+  color: var(--light-color);
 }

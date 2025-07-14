@@ -1,11 +1,17 @@
-import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {NgForOf} from '@angular/common';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
 import {SubscriberCardComponent} from './subscriber-card/subscriber-card.component';
 import {Store} from '@ngrx/store';
-import {profileActions, selectedMeProfile, selectedSubscribersShortList} from '@tt/profile';
-import {AuthService, ChatsService, ProfileService} from '@tt/data-access';
+import {
+  AuthService,
+  ChatsService,
+  profileActions,
+  ProfileService,
+  selectedMeProfile,
+  selectedSubscribersShortList
+} from '@tt/data-access';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {isChatWSError} from '../../../../data-access/src/lib/chats/interfaces/type-guards';
 import {firstValueFrom, Subscription, timer} from 'rxjs';
@@ -24,6 +30,7 @@ import {firstValueFrom, Subscription, timer} from 'rxjs';
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
   store = inject(Store);

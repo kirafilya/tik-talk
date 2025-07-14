@@ -7,14 +7,14 @@ export interface PostsState {
   posts: Post[]
 }
 //Задаем начальные значения
-export const initialState: PostsState = {
+export const postsInitialState: PostsState = {
   posts: []
 }
 //Здесь уже конкретно создает редьюсер
 export const postsFeature = createFeature({
   name: 'postsFeature',
   reducer: createReducer(
-    initialState,
+    postsInitialState,
 // в метод on передаем экшн, который "слушает" рельюсер, начальное значение стейта и то, что будем класть в стейт
     on(postsActions.postsLoaded, (state, payload) => {
       //стейт полностью обновляется на новый объект, кладем старое значение стейта и наши посты

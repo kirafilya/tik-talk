@@ -1,4 +1,4 @@
-import {Profile} from '@tt/interfaces/profile';
+import {Profile} from "../../profile/interfaces/profile";
 
 export interface PostCreateDTO {
   title: string;

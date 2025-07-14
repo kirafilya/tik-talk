@@ -26,6 +26,7 @@
   --light-border: 1px solid var(--light-color);
 }
 
+
 body {
   height: 100dvh;
   background-color: var(--dark-color);
@@ -43,6 +44,17 @@ body {
   line-height: 16px;
   font-size: 12px;
 }
+
+.svg10 {
+  height: 10px;
+  width: 10px;
+}
+
+.svg16 {
+  height: 16px;
+  width: 16px;
+}
+
 
 .btn {
   border-radius: 2px;

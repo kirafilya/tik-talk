@@ -3,8 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {Chat, LastMessageRes, Message} from '../interfaces/chats';
 import {Store} from '@ngrx/store';
-import {selectedMeProfile} from '@tt/profile';
-import {AuthService, ProfileService, TokenResponse} from '@tt/data-access';
+import {AuthService, Profile, selectedMeProfile, TokenResponse} from '@tt/data-access';
 import {ChatWSSerivce} from '../interfaces/chat-ws-service.interface';
 import {ChatWSMessage} from '../interfaces/chat-ws-message.interface';
 import {isChatWSError, isNewMessage, isUnreadMessage} from '../interfaces/type-guards';
@@ -17,16 +16,17 @@ export class ChatsService {
   http = inject(HttpClient);
   store = inject(Store);
   #authService = inject(AuthService);
-  #prolileService = inject(ProfileService);
 
   me = this.store.selectSignal(selectedMeProfile);
   activeChatMessages = signal<Message[]>([]);
+
   countUnreadMessages = signal<number>(0);
+  userConsumer = signal<Profile | null>(null);
+
+  countUnreadMessagesOneUser = signal(new Map<number, number>());
 
   chatsUrl = 'https://icherniakov.ru/yt-course/chat/';
-
   wsAdapter: ChatWSSerivce = new ChatWsRxjsService();
-  // wsAdapter: ChatWSSerivce = new ChatWSNativeService();
 
   connectWS() {
     return this.wsAdapter.connect({
@@ -53,30 +53,26 @@ export class ChatsService {
 
     if (isNewMessage(message)) {
 
-    //   this.activeChatMessages.set([
-    //     ...this.activeChatMessages(),
-    //     {
-    //       id: message.data.id,
-    //       userFromId: message.data.author,
-    //       personalChatId: message.data.chat_id,
-    //       text: message.data.message,
-    //       createdAt: message.data.created_at,
-    //       isRead: false,
-    //       isMine: message.data.author === this.me()?.id
-    //
-    //     }
-    //   ])
+      if (!(message.data.author === this.me()?.id)) {
+        const map = this.countUnreadMessagesOneUser();
+        let chatsId = message.data.chat_id;
 
-    //вся эта хрень нужна, чтобы отрисовать аватарку, тк профаил не передается с ответом
-    // веб сокета, и я ищу его по id
-    this.#prolileService.getAccount(message.data.author.toString())
-      .subscribe((user) => {
+        if (!map.has(chatsId)) {
+          map.set(chatsId, 1);
+        } else {
+          map.set(chatsId, map.get(chatsId)! + 1);
+        }
+        this.countUnreadMessagesOneUser.set(map);
+      }
+
+
         this.activeChatMessages.set([
           ...this.activeChatMessages(),
           {
             id: message.data.id,
             userFromId: message.data.author,
-            user,
+            user: message.data.author === this.me()?.id ?
+              this.me() : this.userConsumer(),
             personalChatId: message.data.chat_id,
             text: message.data.message,
             createdAt: message.data.created_at,
@@ -84,7 +80,7 @@ export class ChatsService {
             isMine: message.data.author === this.me()?.id
           }
         ]);
-      });
+
     }
   }
 
@@ -101,6 +97,9 @@ export class ChatsService {
       map((chat) => {
 
         const patchedMessages = chat.messages.map((message) => {
+
+          this.userConsumer.set(chat.userFirst.id === this.me()!.id ?
+            chat.userSecond : chat.userFirst);
 
           return {
             ...message,
@@ -127,15 +126,15 @@ export class ChatsService {
     );
   }
 
-  // sendMessage(chatId: number, message: string) {
-  //   return this.http.post<Message>(
-  //     `${this.messageUrl}send/${chatId}`,
-  //     {},
-  //     {
-  //       params: {
-  //         message,
-  //       },
-  //     }
-  //   )
-  // }
+  deleteUnreadMessage(chatId: number) {
+    const map = this.countUnreadMessagesOneUser();
+
+    if (map.has(chatId)) {
+      map.set(chatId, 0);
+    }
+
+    this.countUnreadMessagesOneUser.set(map);
+
+  }
+
 }

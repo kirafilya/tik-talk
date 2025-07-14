@@ -1,13 +1,23 @@
 import {createSelector} from '@ngrx/store';
 import {profileFeature} from './reducer';
-import {Profile} from '@tt/interfaces/profile';
+import {Profile} from '@tt/data-access';
 
 export const selectedProfiles = createSelector(
   profileFeature.selectProfiles,
   (profiles) => profiles
 )
 
-export const filtersSelector = createSelector(
+export const selectedProfilesPegiable = createSelector(
+  profileFeature.selectProfileFeatureState,
+  (state) => {
+    return {
+      page: state.page,
+        size: state.size
+    }
+  }
+)
+
+export const selectedFilters = createSelector(
   profileFeature.selectProfileFeatureState,
   (profileFilters) => profileFilters
 )

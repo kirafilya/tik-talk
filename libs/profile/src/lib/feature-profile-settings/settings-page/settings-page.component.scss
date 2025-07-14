@@ -15,6 +15,9 @@
   background-color: var(--dark-color);
   padding: 32px;
   height: calc(100dvh - 24px * 4);
+
+
+  overflow-y: auto;
 }
 
 .profile-form {

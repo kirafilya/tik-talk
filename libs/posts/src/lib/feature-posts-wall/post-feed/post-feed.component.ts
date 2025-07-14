@@ -1,13 +1,21 @@
-import {AfterViewInit, Component, ElementRef, inject, Input, OnInit, Renderer2, Signal,} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  input,
+  Input,
+  Renderer2,
+  Signal,
+} from '@angular/core';
 import {debounceTime, fromEvent} from 'rxjs';
 import {PostInputComponent} from '../../ui';
-import {Profile} from '@tt/interfaces/profile';
-import {Post, PostCreateDTO} from '@tt/data-access';
+import {Post, PostCreateDTO, Profile} from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {selectedPosts} from '../../store/selector';
-import {postsActions} from '../../store/actions';
+import {selectedPosts} from '../../../../../data-access/src/lib/posts/store/selector';
+import {postsActions} from '../../../../../data-access/src/lib/posts/store/actions';
 import {PostComponent} from '../post/post.component';
-import {selectedMeProfile} from '@tt/profile';
 
 @Component({
   selector: 'app-post-feed',
@@ -15,16 +23,16 @@ import {selectedMeProfile} from '@tt/profile';
   imports: [PostInputComponent, PostComponent],
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PostFeedComponent implements AfterViewInit, OnInit {
+export class PostFeedComponent implements AfterViewInit {
   @Input() profile!: Profile;
+  me = input<Profile>();
 
   hostElement = inject(ElementRef);
-
   store = inject(Store);
-  feed: Signal<Post[]> = this.store.selectSignal(selectedPosts)
 
-  me = this.store.selectSignal(selectedMeProfile);
+  feed: Signal<Post[] | []> = this.store.selectSignal(selectedPosts);
 
 
   r2 = inject(Renderer2);
@@ -34,9 +42,6 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
     this.store.dispatch(postsActions.postCreate({post}))
   }
 
-  ngOnInit(){
-    this.store.dispatch(postsActions.postsGet())
-  }
 
 
   ngAfterViewInit(): void {

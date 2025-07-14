@@ -1,7 +1,7 @@
 @let activeChat = activeChat$ | async;
 
 @if (activeChat) {
-  <app-chat-workspace-header
+  <app-chat-workspace-header class="border"
     [profile]="activeChat.companion!"
   ></app-chat-workspace-header>
 

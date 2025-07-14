@@ -8,3 +8,5 @@ export {
   PostService,
   PostCreateDTO
 }
+
+export * from '../posts/store'

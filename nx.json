@@ -55,12 +55,14 @@
       "linter": "eslint",
       "unitTestRunner": "jest",
       "style": "scss",
-      "skipTests": true
+      "skipTests": true,
+      "changeDetection": "OnPush"
     },
     "@nx/angular:component": {
       "style": "scss",
       "skipTests": true,
-      "standalone": true
+      "standalone": true,
+      "changeDetection": "OnPush"
     }
   }
 }

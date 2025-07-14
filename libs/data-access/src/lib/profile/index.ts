@@ -1,5 +1,9 @@
+import {Profile} from './interfaces/profile';
 import {ProfileService} from './services/profile.service';
 
 export {
-  ProfileService
+  ProfileService,
+  type Profile
 }
+
+export * from '../profile/store'

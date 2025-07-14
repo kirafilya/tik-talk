@@ -1,8 +1,16 @@
-import {Component, EventEmitter, HostBinding, inject, input, Output, Renderer2,} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  inject,
+  input,
+  Output,
+  Renderer2,
+} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
-import {CommentCreateDTO, PostCreateDTO} from '../../../../../data-access/src/lib/posts/interfaces/postCreateDTO';
-import {Profile} from '@tt/interfaces/profile';
+import {CommentCreateDTO, PostCreateDTO, Profile} from '@tt/data-access';
 
 
 @Component({
@@ -16,6 +24,7 @@ import {Profile} from '@tt/interfaces/profile';
   ],
   templateUrl: './post-input.component.html',
   styleUrl: './post-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostInputComponent {
   profile = input<Profile>();

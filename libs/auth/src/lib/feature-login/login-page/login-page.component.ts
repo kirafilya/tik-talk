@@ -1,14 +1,16 @@
-import {Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthService} from '../../../../../data-access/src/lib/auth/services/auth.service';
+import {AuthService} from '@tt/data-access';
+import {TtInputComponent} from '../../../../../common-ui/src/lib/components/tt-input/tt-input.component';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TtInputComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPageComponent {
   authService: AuthService = inject(AuthService);

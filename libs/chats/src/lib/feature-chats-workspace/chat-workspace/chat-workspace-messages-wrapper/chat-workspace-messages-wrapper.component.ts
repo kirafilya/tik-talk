@@ -1,5 +1,6 @@
 import {
-  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -13,10 +14,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import {MessageDateGroupComponent} from '../../chats-list/message-date-group/message-date-group.component';
-import {Chat, Message} from '../../../../../../data-access/src/lib/chats/interfaces/chats';
-import {ChatsService} from '../../../../../../data-access/src/lib/chats/services/chats.service';
 import {MessageInputComponent} from '../../../ui/message-input/message-input.component';
 import {ChatMessageComponent} from './chat-workspace-message/chat-message.component';
+import {Chat, ChatsService, Message} from '@tt/data-access';
 
 @Component({
   selector: 'app-chat-workspace-messages-wrapper',
@@ -27,8 +27,9 @@ import {ChatMessageComponent} from './chat-workspace-message/chat-message.compon
   ],
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   styleUrl: './chat-workspace-messages-wrapper.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatWorkspaceMessagesWrapperComponent implements OnChanges, AfterViewChecked {
+export class ChatWorkspaceMessagesWrapperComponent implements OnChanges, AfterViewInit {
   chatsService = inject(ChatsService);
   @ViewChild('scrollToBottom') scrollToBottom!: ElementRef;
 
@@ -43,21 +44,19 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnChanges, AfterVi
     if (changes['messages']) {
       this.dateAndMessages.set(this.groupMessage(this.messages));
     }
-    this.scrollBottom();
+    Promise.resolve().then(() => this.scrollBottom());
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     this.scrollBottom();
+    this.chatsService.deleteUnreadMessage(this.chat().id)
   }
 
   async onSendMessage(textMessage: string) {
     this.chatsService.wsAdapter.sendMessage(
       textMessage,
-      this.chat().id)
-
-    // await firstValueFrom(
-    //   this.chatsService.getChatById(this.chat().id)
-    // );
+      this.chat().id
+    )
     this.scrollBottom();
   }
 
@@ -69,17 +68,13 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnChanges, AfterVi
   }
 
 
-  groupMessage(
-    messagesAll: Message[]
-  ): { date: string; messages: Message[] }[] {
+  groupMessage( messagesAll: Message[] ): { date: string; messages: Message[] }[] {
     const result: { date: string; messages: Message[] }[] = [];
 
     for (const message of messagesAll) {
       const date = message.createdAt.slice(0, 10);
-
       // Ищем уже существующую группу по дате
       const existingGroup = result.find((group) => group.date === date);
-
       if (existingGroup) {
         existingGroup.messages.push(message);
       } else {
@@ -89,7 +84,6 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnChanges, AfterVi
         });
       }
     }
-
     return result;
   }
 }
