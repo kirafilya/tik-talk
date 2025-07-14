@@ -11,10 +11,8 @@ import {
 } from '@angular/core';
 import {debounceTime, fromEvent} from 'rxjs';
 import {PostInputComponent} from '../../ui';
-import {Post, PostCreateDTO, Profile} from '@tt/data-access';
+import {Post, PostCreateDTO, postsActions, Profile, selectedPosts} from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {selectedPosts} from '../../../../../data-access/src/lib/posts/store/selector';
-import {postsActions} from '../../../../../data-access/src/lib/posts/store/actions';
 import {PostComponent} from '../post/post.component';
 
 @Component({

@@ -13,3 +13,4 @@ import {Profile} from '@tt/data-access';
 export class ProfileHeaderComponent {
   profile = input<Profile>();
 }
+

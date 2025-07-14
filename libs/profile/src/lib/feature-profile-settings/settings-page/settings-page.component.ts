@@ -4,11 +4,9 @@ import {firstValueFrom} from 'rxjs';
 import {NameValidator} from './name.validator';
 import {AvatarUploadComponent} from '../../ui/avatar-upload/avatar-upload.component';
 import {ProfileHeaderComponent} from '../../ui/profile-header/profile-header.component';
-import {ProfileService} from '@tt/data-access';
+import {profileActions, ProfileService, selectedMeProfile} from '@tt/data-access';
 import {Store} from '@ngrx/store';
 import {AddressInputComponent, StackInputComponent} from '@tt/common-ui';
-import {selectedMeProfile} from '../../../../../data-access/src/lib/profile/store/selector';
-import {profileActions} from '../../../../../data-access/src/lib/profile/store/actions';
 
 function validateStartWith(forhiddenLetter: string): ValidatorFn {
   return (control: AbstractControl) => {

@@ -4,9 +4,8 @@ import {TimeAgoPipe} from '../../pipes/timeAgo.pipe';
 import {CommentComponent} from '../../ui/comment/comment.component';
 import {PostInputComponent} from '../../ui/post-input/post-input.component';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
-import {CommentCreateDTO, Post, PostComment, Profile} from '@tt/data-access';
+import {CommentCreateDTO, Post, PostComment, postsActions, Profile} from '@tt/data-access';
 import {Store} from '@ngrx/store';
-import {postsActions} from '../../../../../data-access/src/lib/posts/store/actions';
 
 @Component({
   selector: 'app-post',

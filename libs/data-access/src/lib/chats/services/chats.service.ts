@@ -45,7 +45,6 @@ export class ChatsService {
 
     if (isChatWSError(message)) {
       this.#authService.refreshAuthToken().subscribe((token: TokenResponse) => {
-        console.log('Токен обновлен', token.access_token);
       })
       this.wsAdapter.disconnect();
       this.connectWS().subscribe()

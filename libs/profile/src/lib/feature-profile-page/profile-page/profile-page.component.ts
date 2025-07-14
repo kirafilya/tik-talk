@@ -6,13 +6,7 @@ import {ProfileHeaderComponent} from '../../ui/profile-header/profile-header.com
 import {PostFeedComponent, postsActions} from '@tt/posts';
 import {Store} from '@ngrx/store';
 import {switchMap} from 'rxjs';
-import {
-  selectedMeProfile,
-  selectedProfileId,
-  selectedSubscribersShortList
-} from '../../../../../data-access/src/lib/profile/store/selector';
-import {profileActions} from '../../../../../data-access/src/lib/profile/store/actions';
-
+import {profileActions, selectedMeProfile, selectedProfileId, selectedSubscribersShortList} from '@tt/data-access';
 
 @Component({
   selector: 'app-profile-page',
